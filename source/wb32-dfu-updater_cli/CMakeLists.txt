@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.0)
 project(DEVELOPDFU)
 
 #   设置输出可执行文件名
-set(PROJECTOBJEXE wb32-dfu-updater)
+set(PROJECTOBJEXE wb32-dfu-updater_cli)
 
 if(WIN32)
 #   设置引用库名
