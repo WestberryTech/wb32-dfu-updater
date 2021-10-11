@@ -29,9 +29,6 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 aux_source_directory(${CMAKE_SOURCE_DIR} DIR_SRCS)
 aux_source_directory(${CMAKE_SOURCE_DIR}/src DIR_SRCS)
 
-message(STATUS "library path :" ${CMAKE_LIBRARY_PATH}) 
-message(STATUS "include path :" ${CMAKE_INCLUDE_PATH}) 
-
 #   设置可执行文件输出路径
 set(PROJECT_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
