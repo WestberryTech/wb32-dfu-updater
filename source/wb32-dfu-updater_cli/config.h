@@ -1,0 +1,15 @@
+#ifndef __CONFIG_H
+#define __CONFIG_H
+
+#define WB32_DFU_UPDATER_VERSION "0.0.1"
+
+#define MAX_DESC_STR_LEN 255
+#define FLASH_PAGE_SIZE 256
+#define DEFAULT_START_ADDR 0x8000000
+
+#define TRANSFER_SIZE_LIMIT 1024
+#define READ_DATA_SIZE TRANSFER_SIZE_LIMIT
+
+#define DEFAULT_TIMEOUT 5000 /* seconds */
+
+#endif /* __CONFIG_H */
