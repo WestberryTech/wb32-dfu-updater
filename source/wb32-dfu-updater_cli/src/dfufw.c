@@ -359,17 +359,17 @@ int dfufw_opt_download(dfu_dev_t *pdfu, dw_flasher_t *flasher)
 
 int dfufw_opt_upload(dfu_dev_t *pdfu, dw_flasher_t *flasher, uint32_t size)
 {
-  int f;
+  FILE *f;
   uint8_t *read_buf = dfufw_malloc(sizeof(uint8_t) * size);
-  f = open(flasher->file_name, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0666);
-  if (f < 0)
+  f = fopen(flasher->file_name, "wb");
+  if (f == NULL)
   {
     errx(EX_NOINPUT, "Could not open file %s for writing\n", flasher->file_name);
   }
   fn_read_data(pdfu, 0x8000000, read_buf, size);
-  write(f, read_buf, size);
+  fwrite(read_buf, 1, size, f);
   free(read_buf);
-  close(f);
+  fclose(f);
   printf("Upload successed!\n");
 
   return 0;
