@@ -11,6 +11,13 @@ set(CMAKE_C_STANDARD 99)
 #   设置工程名与版本号
 project(wb32-dfu-updater_cli VERSION 0.0.1)
 
+if (NOT DEFINED CMAKE_BUILD_TYPE)
+    #   设置编译类型 Debug / Release
+    set(CMAKE_BUILD_TYPE Debug)
+    #   添加编译选项
+    add_compile_options("-Wall") 
+endif()
+
 #   添加头文件搜索路径
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/src)
@@ -22,13 +29,6 @@ aux_source_directory(${CMAKE_SOURCE_DIR}/src SRC_FILES)
 include(${PROJECT_SOURCE_DIR}/cmake/compiler_conf.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/building_output.cmake)
 configure_file(${PROJECT_SOURCE_DIR}/cmake/config.h.in cmake_config.h)
-
-if (NOT DEFINED CMAKE_BUILD_TYPE)
-    #   设置编译类型 Debug / Release
-    set(CMAKE_BUILD_TYPE Debug)
-    #   添加编译选项
-    add_compile_options("-Wall") 
-endif()
 
 find_package(libusb CONFIG REQUIRED)
 

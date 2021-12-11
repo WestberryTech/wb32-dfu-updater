@@ -12,21 +12,28 @@ function findBuild(){
     cd build # 进入Build文件夹
 }
 
+if [ $(uname -s) == "Linux" ] ; then
+
+COMPILE_ARGS = "-DCMAKE_BUILD_TYPE=Release"
+
+elif [ $(uname -s) == "Darwin" ] ; then 
+
+COMPILE_ARGS = "-DCMAKE_BUILD_TYPE=Release"
+
+elif [[ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]] || [[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]] ; then
+
+COMPILE_ARGS = "-DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/Desktop/ -G \"Visual Studio 16 2019\""
+	
+else
+
+echo "The system version does not support compilation!"
+
+fi #ifend
+
 # 创建并编译
 function buildProject() {
-    if [ $(uname -s) == "Linux" ] ; then
 
-    cmake ..
-
-    elif [ $(uname -s) == "Darwin" ] ; then 
-
-    cmake ..
-
-    elif [[ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]] || [[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]] ; then
-
-    cmake *std_cmake_args -DCMAKE_INSTALL_PREFIX=D:/Desktop/ -G "Visual Studio 16 2019" ..
-
-    fi #ifend
+    cmake .. ${COMPILE_ARGS}
 
     make
 }
