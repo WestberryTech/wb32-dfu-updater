@@ -3,7 +3,7 @@
 
 #include <time.h>
 #include <stdint.h>
-#include <libusb-1.0/libusb.h>
+#include "libusb.h"
 
 #include "config.h"
 

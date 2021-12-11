@@ -16,15 +16,15 @@ function findBuild(){
 function buildProject() {
     if [ $(uname -s) == "Linux" ] ; then
 
-    cmake ../source/wb32-dfu-updater_cli
+    cmake ..
 
     elif [ $(uname -s) == "Darwin" ] ; then 
 
-    cmake ../source/wb32-dfu-updater_cli
+    cmake ..
 
     elif [[ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]] || [[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]] ; then
 
-    cmake *std_cmake_args -DCMAKE_INSTALL_PREFIX=D:/Desktop/ -G "MinGW Makefiles" ../source/wb32-dfu-updater_cli
+    cmake *std_cmake_args -DCMAKE_INSTALL_PREFIX=D:/Desktop/ -G "Visual Studio 16 2019" ..
 
     fi #ifend
 

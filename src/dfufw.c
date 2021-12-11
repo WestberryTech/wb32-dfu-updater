@@ -1,13 +1,12 @@
+#include <io.h>
+#include <time.h>
+#include <fcntl.h>
+#include <errno.h>
 #include <stdio.h>
 #include <string.h>
-#include <errno.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <time.h>
-#include <limits.h>
 #include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
 
 #include "dfufw.h"
 #include "cmdinfo.h"
@@ -80,7 +79,7 @@ void dfu_load_file(dw_flasher_t *flasher)
 
     flasher->firmware->psd_length = offset;
 
-    if (flasher->firmware->psd_length > (uint32_t)SSIZE_MAX)
+    if (flasher->firmware->psd_length > (uint32_t)0XFFFFFFFF)
     {
       fprintf(stderr, "File too large for memory allocation on this platform\n");
       exit(EX_SOFTWARE);

@@ -1,18 +1,17 @@
+#include <io.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <getopt.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <limits.h>
 #include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <libusb-1.0/libusb.h>
 
 #include "dfufwdevice.h"
 #include "cmdinfo.h"
+#include "libusb.h"
 #include "dfufw.h"
 
 dfu_dev_t *dfu_root = NULL;

@@ -1,7 +1,9 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
-#define WB32_DFU_UPDATER_VERSION "0.0.1"
+#include "cmake_config.h"
+
+#define WB32_DFU_UPDATER_VERSION PROJECT_VERSION
 
 #define MAX_DESC_STR_LEN 255
 #define FLASH_PAGE_SIZE 256
