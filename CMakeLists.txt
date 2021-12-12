@@ -11,7 +11,7 @@ endif()
 set(CMAKE_C_STANDARD 99)
 
 #   设置工程名与版本号
-project(wb32-dfu-updater_cli VERSION 0.0.1)
+project(wb32-dfu-updater_cli VERSION 0.0.2)
 
 if (NOT (CMAKE_BUILD_TYPE STREQUAL Release))
     #   设置编译类型 Debug / Release
