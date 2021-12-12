@@ -1,4 +1,3 @@
-#include <io.h>
 #include <time.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -7,6 +6,12 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+
+#if !(defined(_WIN32) || defined(__CYGWIN__))
+#    include <unistd.h>
+#else
+#    include <io.h>
+#endif
 
 #include "dfufw.h"
 #include "cmdinfo.h"

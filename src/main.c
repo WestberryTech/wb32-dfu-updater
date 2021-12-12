@@ -1,4 +1,3 @@
-#include <io.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <fcntl.h>
@@ -8,6 +7,12 @@
 #include <string.h>
 #include <getopt.h>
 #include <sys/stat.h>
+
+#if !(defined(_WIN32) || defined(__CYGWIN__))
+#    include <unistd.h>
+#else
+#    include <io.h>
+#endif
 
 #include "dfufwdevice.h"
 #include "cmdinfo.h"

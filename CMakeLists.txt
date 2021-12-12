@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
 
-if (NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-    set(CMAKE_TOOLCHAIN_FILE "F:/LocalSoftWareInstall/vcpkg/scripts/buildsystems/vcpkg.cmake"
-    CACHE STRING "Vcpkg toolchain file")
+if (WIN32)
+    if (NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+        set(CMAKE_TOOLCHAIN_FILE "F:/LocalSoftWareInstall/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        CACHE STRING "Vcpkg toolchain file")
+    endif()
 endif()
 
 #   设置编译器标准
@@ -20,17 +22,33 @@ endif()
 
 #   添加头文件搜索路径
 include_directories(${CMAKE_SOURCE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${PROJECT_BINARY_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/src)
+if (WIN32)
+    include_directories(${CMAKE_SOURCE_DIR}/windows_src)
+endif()
 
 #   将源文件路径保存到DIR_SRCS变量
 aux_source_directory(${CMAKE_SOURCE_DIR}/src SRC_FILES)
+if (WIN32)
+    aux_source_directory(${CMAKE_SOURCE_DIR}/windows_src SRC_FILES)
+endif()
 
 include(${PROJECT_SOURCE_DIR}/cmake/compiler_conf.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/building_output.cmake)
 configure_file(${PROJECT_SOURCE_DIR}/cmake/config.h.in cmake_config.h)
 
-find_package(libusb CONFIG REQUIRED)
+
+if (LIBUSB_INCLUDE_DIRS AND LIBUSB_LIBRARIES)
+
+    # in cache already
+    set(LIBUSB_FOUND TRUE)
+
+else (LIBUSB_INCLUDE_DIRS AND LIBUSB_LIBRARIES)
+
+    find_package(libusb CONFIG REQUIRED)
+
+endif (LIBUSB_INCLUDE_DIRS AND LIBUSB_LIBRARIES)
 
 #   设置可执行文件输出路径
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/bin)
@@ -45,12 +63,15 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${LIBUSB_LIBRARIES})
 
 install(TARGETS  ${CMAKE_PROJECT_NAME} 
     RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}./bin
-    # LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}./lib
-    # ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}./lib
     PERMISSIONS OWNER_EXECUTE
 )
 
-INSTALL(FILES LICENSE README.MD DESTINATION ${CMAKE_INSTALL_LIBDIR}/)
+install(FILES ${LIBUSB_LIBRARIES}
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}./lib
+    PERMISSIONS OWNER_EXECUTE
+)
+
+INSTALL(FILES LICENSE README.MD DESTINATION ${CMAKE_INSTALL_LIBDIR}./)
 
 include(InstallRequiredSystemLibraries)
 set(CPACK_PACKAGE_DIRECTORY ${PROJECT_SOURCE_DIR}/pack)
@@ -60,6 +81,7 @@ set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 set(PROJECT_VERSION_FULL ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
 set(CPACK_SOURCE_IGNORE_FILES
+        ${PROJECT_SOURCE_DIR}/.DS_Store
         ${PROJECT_SOURCE_DIR}/.vscode
         ${PROJECT_SOURCE_DIR}/.git
         ${PROJECT_SOURCE_DIR}/*.hex

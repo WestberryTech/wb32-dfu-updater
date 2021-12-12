@@ -12,28 +12,26 @@ function findBuild(){
     cd build # 进入Build文件夹
 }
 
-if [ $(uname -s) == "Linux" ] ; then
-
-COMPILE_ARGS = "-DCMAKE_BUILD_TYPE=Release"
-
-elif [ $(uname -s) == "Darwin" ] ; then 
-
-COMPILE_ARGS = "-DCMAKE_BUILD_TYPE=Release"
-
-elif [[ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]] || [[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]] ; then
-
-COMPILE_ARGS = "-DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/Desktop/ -G \"Visual Studio 16 2019\""
-	
-else
-
-echo "The system version does not support compilation!"
-
-fi #ifend
-
 # 创建并编译
 function buildProject() {
 
-    cmake .. ${COMPILE_ARGS}
+    if [ $(uname -s) == "Linux" ] ; then
+
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DLIBUSB_INCLUDE_DIRS=/usr/local/Cellar/libusb/1.0.24/include/libusb-1.0 -DLIBUSB_LIBRARIES=/usr/local/Cellar/libusb/1.0.24/lib/libusb-1.0.dylib
+
+    elif [ $(uname -s) == "Darwin" ] ; then 
+
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DLIBUSB_INCLUDE_DIRS=/usr/local/Cellar/libusb/1.0.24/include/libusb-1.0 -DLIBUSB_LIBRARIES=/usr/local/Cellar/libusb/1.0.24/lib/libusb-1.0.dylib
+
+    elif [[ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]] || [[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]] ; then
+
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/Desktop/ -G "Visual Studio 16 2019"
+        
+    else
+
+    echo "The system version does not support compilation!"
+
+    fi #ifend
 
     make
 }
