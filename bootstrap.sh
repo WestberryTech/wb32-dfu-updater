@@ -51,7 +51,7 @@ function readLogFile(){
     if [ -e "logfile" ];then
         package_name=`sed -n '$p' logfile |sed -n "s/.*CPack:.*\/\(.*tar\.gz\).*generated./\1/gp"`
         package_version=`echo "${package_name}" | sed -n 's/.*v\(.*\)\-.*/\1/gp' |sed -n 's/\(.*\)\-.*/\1/gp'`
-        fileSHA256=`openssl dgst -sha256 ../pack/${package_name}|sed -n "s/.*= \(.*\)/\1/gp"`
+        fileSHA256=`openssl dgst -sha256 ../package/${package_name}|sed -n "s/.*= \(.*\)/\1/gp"`
         echo "---name: ${package_name}"
         echo "---version: ${package_version}"
         echo sha256 \""$fileSHA256"\" | tee -a ./logfile

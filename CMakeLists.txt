@@ -23,15 +23,15 @@ endif()
 #   添加头文件搜索路径
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${PROJECT_BINARY_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/src_common)
 if (WIN32)
-    include_directories(${CMAKE_SOURCE_DIR}/windows_src)
+    include_directories(${CMAKE_SOURCE_DIR}/src_windows)
 endif()
 
 #   将源文件路径保存到DIR_SRCS变量
-aux_source_directory(${CMAKE_SOURCE_DIR}/src SRC_FILES)
+aux_source_directory(${CMAKE_SOURCE_DIR}/src_common SRC_FILES)
 if (WIN32)
-    aux_source_directory(${CMAKE_SOURCE_DIR}/windows_src SRC_FILES)
+    aux_source_directory(${CMAKE_SOURCE_DIR}/src_windows SRC_FILES)
 endif()
 
 include(${PROJECT_SOURCE_DIR}/cmake/compiler_conf.cmake)
@@ -61,20 +61,11 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${LIBUSB_INCLUDE_DIRS})
 #  链接库文件
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${LIBUSB_LIBRARIES})
 
-install(TARGETS  ${CMAKE_PROJECT_NAME} 
-    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-    # PERMISSIONS OWNER_EXECUTE
-)
-
-# install(FILES ${LIBUSB_LIBRARIES}
-#     DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-#     PERMISSIONS OWNER_EXECUTE
-# )
-
-# INSTALL(FILES LICENSE README.MD DESTINATION ${CMAKE_INSTALL_PREFIX})
+#   install configuration
+include(${PROJECT_SOURCE_DIR}/cmake/install_common.cmake)
 
 include(InstallRequiredSystemLibraries)
-set(CPACK_PACKAGE_DIRECTORY ${PROJECT_SOURCE_DIR}/pack)
+set(CPACK_PACKAGE_DIRECTORY ${PROJECT_SOURCE_DIR}/package)
 set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
@@ -87,13 +78,23 @@ set(CPACK_SOURCE_IGNORE_FILES
         ${PROJECT_SOURCE_DIR}/*.hex
         ${PROJECT_SOURCE_DIR}/*.bin
         ${PROJECT_SOURCE_DIR}/*.exe
-        ${PROJECT_SOURCE_DIR}/windows_driver
+        ${PROJECT_SOURCE_DIR}/package
+        ${PROJECT_SOURCE_DIR}/driver
         ${PROJECT_SOURCE_DIR}/build
         ${PROJECT_SOURCE_DIR}/docs
-        ${PROJECT_SOURCE_DIR}/pack
         ${PROJECT_SOURCE_DIR}/bin)
 
+if(WIN32 AND NOT UNIX)
+    set(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} wb32-dfu-updater_cli")
+    set(CPACK_NSIS_MODIFY_PATH ON)
+endif()
+
+
 set(CPACK_SOURCE_GENERATOR "TGZ")
-set(CPACK_SOURCE_PACKAGE_FILE_NAME ${PROJECT_NAME}-v${PROJECT_VERSION_FULL}-${CMAKE_SYSTEM_NAME})
+set(CPACK_PACKAGE_FILE_NAME ${CMAKE_PROJECT_NAME})
+set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CMAKE_PROJECT_NAME})
+set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY ${CMAKE_PROJECT_NAME}-${PROJECT_VERSION_FULL})
+set(CPACK_SOURCE_PACKAGE_FILE_NAME ${CMAKE_PROJECT_NAME}-v${PROJECT_VERSION_FULL}-${CMAKE_SYSTEM_NAME})
+set(CPACK_PACKAGE_EXECUTABLES "${CPACK_SOURCE_PACKAGE_FILE_NAME}" "${CPACK_SOURCE_PACKAGE_FILE_NAME}")
 
 include(CPack)
