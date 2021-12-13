@@ -23,15 +23,15 @@ endif()
 #   添加头文件搜索路径
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${PROJECT_BINARY_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/common_src)
+include_directories(${CMAKE_SOURCE_DIR}/src_common)
 if (WIN32)
-    include_directories(${CMAKE_SOURCE_DIR}/windows_src)
+    include_directories(${CMAKE_SOURCE_DIR}/src_windows)
 endif()
 
 #   将源文件路径保存到DIR_SRCS变量
-aux_source_directory(${CMAKE_SOURCE_DIR}/common_src SRC_FILES)
+aux_source_directory(${CMAKE_SOURCE_DIR}/src_common SRC_FILES)
 if (WIN32)
-    aux_source_directory(${CMAKE_SOURCE_DIR}/windows_src SRC_FILES)
+    aux_source_directory(${CMAKE_SOURCE_DIR}/src_windows SRC_FILES)
 endif()
 
 include(${PROJECT_SOURCE_DIR}/cmake/compiler_conf.cmake)
