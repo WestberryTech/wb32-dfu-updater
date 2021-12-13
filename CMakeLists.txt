@@ -78,10 +78,10 @@ set(CPACK_SOURCE_IGNORE_FILES
         ${PROJECT_SOURCE_DIR}/*.hex
         ${PROJECT_SOURCE_DIR}/*.bin
         ${PROJECT_SOURCE_DIR}/*.exe
-        ${PROJECT_SOURCE_DIR}/windows_driver
+        ${PROJECT_SOURCE_DIR}/package
+        ${PROJECT_SOURCE_DIR}/driver
         ${PROJECT_SOURCE_DIR}/build
         ${PROJECT_SOURCE_DIR}/docs
-        ${PROJECT_SOURCE_DIR}/pack
         ${PROJECT_SOURCE_DIR}/bin)
 
 if(WIN32 AND NOT UNIX)
