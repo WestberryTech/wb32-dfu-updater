@@ -36,7 +36,7 @@ The following operations depend on [vcpkg](https://github.com/microsoft/vcpkg) a
 
 ### 1. Install the [libusb](https://libusb.info/) library.
 
-- ``` vcpkg install libusb ```
+- ``` vcpkg install libusb:x64-windows ```
 
 ### 2. Install the wb32-dfu-updater_cli.
 - ``` git clone https://github.com/WestberryTech/wb32-dfu-updater.git ```
