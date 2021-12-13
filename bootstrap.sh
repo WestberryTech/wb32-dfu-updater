@@ -17,15 +17,15 @@ function buildProject() {
 
     if [ $(uname -s) == "Linux" ] ; then
 
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DLIBUSB_INCLUDE_DIRS=/usr/local/Cellar/libusb/1.0.24/include/libusb-1.0 -DLIBUSB_LIBRARIES=/usr/local/Cellar/libusb/1.0.24/lib/libusb-1.0.dylib
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/Desktop/wb32-dfu-updater_cli/ -DLIBUSB_INCLUDE_DIRS=/usr/local/Cellar/libusb/1.0.24/include/libusb-1.0 -DLIBUSB_LIBRARIES=/usr/local/Cellar/libusb/1.0.24/lib/libusb-1.0.dylib
 
     elif [ $(uname -s) == "Darwin" ] ; then 
 
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DLIBUSB_INCLUDE_DIRS=/usr/local/Cellar/libusb/1.0.24/include/libusb-1.0 -DLIBUSB_LIBRARIES=/usr/local/Cellar/libusb/1.0.24/lib/libusb-1.0.dylib
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/Desktop/wb32-dfu-updater_cli/ -DLIBUSB_INCLUDE_DIRS=/usr/local/Cellar/libusb/1.0.24/include/libusb-1.0 -DLIBUSB_LIBRARIES=/usr/local/Cellar/libusb/1.0.24/lib/libusb-1.0.dylib
 
     elif [[ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]] || [[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]] ; then
 
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/Desktop/ -G "Visual Studio 16 2019"
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/Desktop/wb32-dfu-updater_cli/ -DCMAKE_TOOLCHAIN_FILE="E:/SoftWare/vcpkg/scripts/buildsystems/vcpkg.cmake" -G "Visual Studio 16 2019"
         
     else
 
@@ -33,7 +33,12 @@ function buildProject() {
 
     fi #ifend
 
-    make
+    cmake --build .
+}
+
+# 安装
+function installProject() {
+  cmake --install .
 }
 
 # 打包文件
@@ -55,6 +60,19 @@ function readLogFile(){
     fi
 }
 
+function PackagingProject() {
+    if [ ! -e "CPackSourceConfig.cmake" ];then
+        echo "未找到打包文件，请重新执行此脚本"
+    else
+        echo "已生成打包文件，即将开始打包"
+        name=`cmakePackage`
+        echo "------------------------------"
+        echo "$name"| tee -a ./logfile
+    fi
+
+    readLogFile
+}
+
 # 本地提交至brew仓库，远程提交
 function commitToBrew(){
     if [ ! -n "$package_name" ];then
@@ -72,29 +90,11 @@ function commitToBrew(){
 
 findBuild
 buildProject
-# cmakePackage
-
-if [ ! -e "CPackSourceConfig.cmake" ];then
-    echo "未找到打包文件，请重新执行此脚本"
-else
-    echo "已生成打包文件，即将开始打包"
-    name=`cmakePackage`
-    echo "------------------------------"
-    echo "$name"| tee -a ./logfile
-fi
-
-readLogFile
+PackagingProject
 # commitToBrew
-
-# cp ../source/wb32-dfu-updater_cli/build/wb32-dfu-updater_cli* ./
-# make clean
 
 cd ..
 
 echo "press any key quit!"
+
 read -n 1
-
-
-
-
-
