@@ -9,8 +9,18 @@ The following operations depend on [Homebrew](https://docs.brew.sh/Installation)
 ### 1. Install the [libusb](https://libusb.info/) library.
 
 - ``` brew install libusb ```
-- ``` brew list libusb ```
--  Record the installation path of Libusb 
+-  Record the installation path of Libusb. 
+   Exanple:
+    ```bash
+    $ brew list libusb
+    /usr/local/Cellar/libusb/1.0.24/include/libusb-1.0/libus
+    /usr/local/Cellar/libusb/1.0.24/lib/libusb-1.0.0.dylib
+    /usr/local/Cellar/libusb/1.0.24/lib/pkgconfig/libusb-1.0
+    /usr/local/Cellar/libusb/1.0.24/lib/ (2 other files)
+    /usr/local/Cellar/libusb/1.0.24/share/libusb/ (9 files)
+    ```
+    [path to libusb] = /usr/local/Cellar/libusb
+    [libusb version] = 1.0.24
 
 ### 2. Install the wb32-dfu-updater_cli.
 - ``` git clone https://github.com/WestberryTech/wb32-dfu-updater.git ```
