@@ -48,6 +48,6 @@ The following operations depend on [vcpkg](https://github.com/microsoft/vcpkg) a
 
 ## Windows driver
 
-You can found the Windows driver for wb32-dfu-updater_cli in the `windows_driver` directory.
+You can found the Windows driver for wb32-dfu-updater_cli in the `driver` directory.
 
 To install the Windows driver for wb32-dfu-updater_cli, you should unzip the package and run `winusb_install.bat`.
