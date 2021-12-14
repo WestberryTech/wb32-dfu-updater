@@ -17,7 +17,7 @@ function buildProject() {
 
     if [ $(uname -s) == "Linux" ] ; then
 
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/Desktop/wb32-dfu-updater_cli/ -DLIBUSB_INCLUDE_DIRS=/usr/local/Cellar/libusb/1.0.24/include/libusb-1.0 -DLIBUSB_LIBRARIES=/usr/local/Cellar/libusb/1.0.24/lib/libusb-1.0.dylib
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/Desktop/wb32-dfu-updater_cli/ -DLIBUSB_INCLUDE_DIRS=/home/linuxbrew/.linuxbrew/Cellar/libusb/1.0.24/include/libusb-1.0 -DLIBUSB_LIBRARIES=/home/linuxbrew/.linuxbrew/Cellar/libusb/1.0.24/lib/libusb-1.0.so
 
     elif [ $(uname -s) == "Darwin" ] ; then 
 

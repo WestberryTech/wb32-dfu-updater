@@ -29,6 +29,7 @@ else (WIN32)
 
     INSTALL(TARGETS  ${CMAKE_PROJECT_NAME} 
         RUNTIME DESTINATION bin
+        COMPONENT Runtime
     )
 
 endif(WIN32)
