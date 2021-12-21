@@ -2,81 +2,19 @@
 
 `wb32-dfu-updater` is a host tool used to download and upload firmware to/from WB32 MCU via USB. (`wb32-dfu-updater_cli` is the command line version)
 
-## How to build wb32-dfu-updater_cli on Windows:
+## How to build wb32-dfu-updater_cli:
 
-The following operations depend on [vcpkg](https://github.com/microsoft/vcpkg) and [CMake](https://gitlab.kitware.com/cmake/community/-/wikis/home), please ensure that they are installed on your system.
+**Windows system please run on MINGW64!!!**
 
-### 1. Install the [libusb](https://libusb.info/) library.
+### Prerequisites :  
+- cmake-3.0.0 or more see http://www.cmake.org/cmake/resources/software.html
+- libusb-1.0.24 or more see https://github.com/libusb/libusb/releases/download/v1.0.24/libusb-1.0.24.tar.bz2
 
-- ``` vcpkg install libusb:x64-windows ```
-
-### 2. Install the wb32-dfu-updater_cli.
+### Install the wb32-dfu-updater_cli :
 - ``` git clone https://github.com/WestberryTech/wb32-dfu-updater.git ```
 - ``` cd wb32-dfu-updater ```
-- ``` mkdir build ```
-- ``` cd build ```
-- ``` cmake .. -DCMAKE_TOOLCHAIN_FILE="[path to vcpkg]/scripts/buildsystems/vcpkg.cmake" ```
-- ``` make install ``` 
-
-## How to build wb32-dfu-updater_cli on Linux:
-
-The following operations depend on [Homebrew](https://docs.brew.sh/Installation) and [CMake](https://gitlab.kitware.com/cmake/community/-/wikis/home), please ensure that they are installed on your system.
-
-### 1. Install the [libusb](https://libusb.info/) library.
-
-- ``` brew install libusb ```
--  Record the installation path of Libusb. 
-   Exanple:
-    ```bash
-    $ brew list libusb
-    /home/linuxbrew/.linuxbrew/Cellar/libusb/1.0.24/include/libusb-1.0/libus
-    /home/linuxbrew/.linuxbrew/Cellar/libusb/1.0.24/lib/libusb-1.0.0.dylib
-    /home/linuxbrew/.linuxbrew/Cellar/libusb/1.0.24/lib/pkgconfig/libusb-1.0
-    /home/linuxbrew/.linuxbrew/Cellar/libusb/1.0.24/lib/ (2 other files)
-    /home/linuxbrew/.linuxbrew/Cellar/libusb/1.0.24/share/libusb/ (9 files)
-    ```
-    [path to libusb] = /home/linuxbrew/.linuxbrew/Cellar/libusb
-
-    [libusb version] = 1.0.24
-
-### 2. Install the wb32-dfu-updater_cli.
-- ``` git clone https://github.com/WestberryTech/wb32-dfu-updater.git ```
-- ``` cd wb32-dfu-updater ```
-- ``` mkdir build ```
-- ``` cd build ```
-- ``` cmake .. -DCMAKE_BUILD_TYPE=Release -DLIBUSB_INCLUDE_DIRS=[path to libusb]/[libusb version]/include/libusb-1.0 -DLIBUSB_LIBRARIES=[path to libusb]/[libusb version]/lib/libusb-1.0.dylib ```
-- ``` make install ``` 
-
-
-## How to build wb32-dfu-updater_cli on MacOs:
-
-The following operations depend on [Homebrew](https://docs.brew.sh/Installation) and [CMake](https://gitlab.kitware.com/cmake/community/-/wikis/home), please ensure that they are installed on your system.
-
-### 1. Install the [libusb](https://libusb.info/) library.
-
-- ``` brew install libusb ```
--  Record the installation path of Libusb. 
-   Exanple:
-    ```bash
-    $ brew list libusb
-    /usr/local/Cellar/libusb/1.0.24/include/libusb-1.0/libus
-    /usr/local/Cellar/libusb/1.0.24/lib/libusb-1.0.0.dylib
-    /usr/local/Cellar/libusb/1.0.24/lib/pkgconfig/libusb-1.0
-    /usr/local/Cellar/libusb/1.0.24/lib/ (2 other files)
-    /usr/local/Cellar/libusb/1.0.24/share/libusb/ (9 files)
-    ```
-    [path to libusb] = /usr/local/Cellar/libusb
-
-    [libusb version] = 1.0.24
-
-### 2. Install the wb32-dfu-updater_cli.
-- ``` git clone https://github.com/WestberryTech/wb32-dfu-updater.git ```
-- ``` cd wb32-dfu-updater ```
-- ``` mkdir build ```
-- ``` cd build ```
-- ``` cmake .. -DCMAKE_BUILD_TYPE=Release -DLIBUSB_INCLUDE_DIRS=[path to libusb]/[libusb version]/include/libusb-1.0 -DLIBUSB_LIBRARIES=[path to libusb]/[libusb version]/lib/libusb-1.0.dylib ```
-- ``` make install ``` 
-
+- ``` bash ./bootstrap.sh install ```
+- If Permission denied is displayed, use the ``` sudo bash ./bootstrap.sh install ```
 
 ## Windows driver
 
