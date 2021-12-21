@@ -129,7 +129,7 @@ function buildProject() {
 
     elif [[ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]] || [[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]] ; then
 
-    cmake .. -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" -DLIBUSB_INCLUDE_DIRS=$LIBUSB_INCLUDE_DIRS -DLIBUSB_LIBRARIES=$LIBUSB_LIBRARIES
+    cmake .. -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" -DLIBUSB_INCLUDE_DIRS=$LIBUSB_INCLUDE_DIRS -DLIBUSB_LIBRARIES=$LIBUSB_LIBRARIES -DCMAKE_INSTALL_PREFIX=/
         
     else
 

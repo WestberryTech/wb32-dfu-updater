@@ -1,35 +1,35 @@
 if (WIN32 AND NOT UNIX)
 
     INSTALL(TARGETS  ${CMAKE_PROJECT_NAME} 
-        RUNTIME DESTINATION /
+        RUNTIME DESTINATION bin
         PERMISSIONS OWNER_EXECUTE
     )
 
     if (CMAKE_BUILD_TYPE STREQUAL Release)
 
-        INSTALL(FILES ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}/libusb-1.0.dll
-            DESTINATION /
+        INSTALL(FILES ${LIBUSB_LIBRARIES}
+            DESTINATION lib
             CONFIGURATIONS Release
-            # COMPONENT Runtime
+            COMPONENT Runtime
         )
 
     elseif(CMAKE_BUILD_TYPE STREQUAL Debug)
 
-        INSTALL(FILES ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG}/libusb-1.0.dll
-            DESTINATION /
+        INSTALL(FILES ${LIBUSB_LIBRARIES}
+            DESTINATION lib
             CONFIGURATIONS Debug
-            # COMPONENT Runtime
+            COMPONENT Runtime
         )
 
     endif()
 
-    INSTALL(FILES LICENSE README.MD DESTINATION /)
+    # INSTALL(FILES LICENSE README.MD DESTINATION /)
 
-else (WIN32)
+else (WIN32 AND NOT UNIX)
 
     INSTALL(TARGETS  ${CMAKE_PROJECT_NAME} 
         RUNTIME DESTINATION bin
         COMPONENT Runtime
     )
 
-endif(WIN32)
+endif(WIN32 AND NOT UNIX)

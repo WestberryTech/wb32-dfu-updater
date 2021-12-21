@@ -40,11 +40,38 @@ if (LIBUSB_INCLUDE_DIRS AND LIBUSB_LIBRARIES)
 
 else (LIBUSB_INCLUDE_DIRS AND LIBUSB_LIBRARIES)
 
-    message(FATAL_ERROR "
-        No libusb path information is provided!
-        LIBUSB_INCLUDE_DIRS=???
-        LIBUSB_LIBRARIES=???
-    ")
+    find_path(LIBUSB_INCLUDE_DIR
+      NAMES libusb-1.0/libusb.h
+      DOC "libusb include directory")
+    set(LIBUSB_INCLUDE_DIR ${LIBUSB_INCLUDE_DIR}/libusb-1.0)
+    mark_as_advanced(LIBUSB_INCLUDE_DIR)
+
+    message(STATUS "LIBUSB_INCLUDE_DIR=${LIBUSB_INCLUDE_DIR}")
+
+    find_library(LIBUSB_LIBRARY
+      NAMES libusb-1.0.so libusb-1.0.dylib libusb-1.0.dll
+      DOC "libusb library")
+    mark_as_advanced(LIBUSB_LIBRARY)
+
+    message(STATUS "LIBUSB_LIBRARY=${LIBUSB_LIBRARY}")
+
+    include(FindPackageHandleStandardArgs)
+    find_package_handle_standard_args(LIBUSB REQUIRED_VARS LIBUSB_LIBRARY LIBUSB_INCLUDE_DIR)
+
+    if ((LIBUSB_INCLUDE_DIR STREQUAL LIBUSB_INCLUDE_DIR-NOTFOUND) OR 
+        (LIBUSB_LIBRARY STREQUAL LIBUSB_LIBRARY-NOTFOUND))
+
+        message(FATAL_ERROR "
+            No libusb path information is provided!
+            LIBUSB_INCLUDE_DIRS=???
+            LIBUSB_LIBRARIES=???
+        ")
+    else()
+
+        set(LIBUSB_INCLUDE_DIRS ${LIBUSB_INCLUDE_DIR})
+        set(LIBUSB_LIBRARIES ${LIBUSB_LIBRARY})
+
+    endif()
 
 endif (LIBUSB_INCLUDE_DIRS AND LIBUSB_LIBRARIES)
 
