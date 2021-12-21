@@ -5,23 +5,23 @@ if (WIN32 AND NOT UNIX)
         PERMISSIONS OWNER_EXECUTE
     )
 
-    if (CMAKE_BUILD_TYPE STREQUAL Release)
+    # if (CMAKE_BUILD_TYPE STREQUAL Release)
 
-        INSTALL(FILES ${LIBUSB_LIBRARIES}
-            DESTINATION lib
-            CONFIGURATIONS Release
-            COMPONENT Runtime
-        )
+    #     INSTALL(FILES ${LIBUSB_LIBRARIES}
+    #         DESTINATION lib
+    #         CONFIGURATIONS Release
+    #         COMPONENT Runtime
+    #     )
 
-    elseif(CMAKE_BUILD_TYPE STREQUAL Debug)
+    # elseif(CMAKE_BUILD_TYPE STREQUAL Debug)
 
-        INSTALL(FILES ${LIBUSB_LIBRARIES}
-            DESTINATION lib
-            CONFIGURATIONS Debug
-            COMPONENT Runtime
-        )
+    #     INSTALL(FILES ${LIBUSB_LIBRARIES}
+    #         DESTINATION lib
+    #         CONFIGURATIONS Debug
+    #         COMPONENT Runtime
+    #     )
 
-    endif()
+    # endif()
 
     # INSTALL(FILES LICENSE README.MD DESTINATION /)
 
