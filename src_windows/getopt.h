@@ -1,27 +1,23 @@
-/* Declarations for getopt.
-   Copyright (C) 1989-1994,1996-1999,2001,2003,2004,2009,2010
-   Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
+/*
+    Copyright (C) 2021 Westberry Technology (ChangZhou) Corp., Ltd
 
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
+        http://www.apache.org/licenses/LICENSE-2.0
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, write to the Free
-   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-   02111-1307 USA.  */
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 
 #ifndef _GETOPT_H
 
 #ifndef __need_getopt
-# define _GETOPT_H 1
+#  define _GETOPT_H 1
 #endif
 
 /* If __GNU_LIBRARY__ is not already defined, either we are being used
@@ -32,21 +28,21 @@
    if it's from glibc.  (Why ctype.h?  It's guaranteed to exist and it
    doesn't flood the namespace with stuff the way some other headers do.)  */
 #if !defined __GNU_LIBRARY__
-# include <ctype.h>
+#  include <ctype.h>
 #endif
 
 #ifndef __THROW
-# ifndef __GNUC_PREREQ
-#  define __GNUC_PREREQ(maj, min) (0)
-# endif
-# if defined __cplusplus && __GNUC_PREREQ (2,8)
-#  define __THROW	throw ()
-# else
-#  define __THROW
-# endif
+#  ifndef __GNUC_PREREQ
+#    define __GNUC_PREREQ(maj, min) (0)
+#  endif
+#  if defined __cplusplus && __GNUC_PREREQ(2, 8)
+#    define __THROW throw()
+#  else
+#    define __THROW
+#  endif
 #endif
 
-#ifdef	__cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -88,9 +84,9 @@ extern int optopt;
    zero.
 
    The field `has_arg' is:
-   no_argument		(or 0) if the option does not take an argument,
-   required_argument	(or 1) if the option requires an argument,
-   optional_argument 	(or 2) if the option takes an optional argument.
+   no_argument    (or 0) if the option does not take an argument,
+   required_argument  (or 1) if the option requires an argument,
+   optional_argument  (or 2) if the option takes an optional argument.
 
    If the field `flag' is not NULL, it points to a variable that is set
    to the value given in the field `val' when the option is found, but
@@ -115,11 +111,10 @@ struct option
 
 /* Names for the values of the `has_arg' field of `struct option'.  */
 
-# define no_argument		0
-# define required_argument	1
-# define optional_argument	2
-#endif	/* need getopt */
-
+#  define no_argument 0
+#  define required_argument 1
+#  define optional_argument 2
+#endif /* need getopt */
 
 /* Get definitions and prototypes for functions to process the
    arguments in ARGV (ARGC of them, minus the program name) for
@@ -149,41 +144,42 @@ struct option
 /* Many other libraries have conflicting prototypes for getopt, with
    differences in the consts, in stdlib.h.  To avoid compilation
    errors, only prototype getopt for the GNU C library.  */
-extern int getopt (int ___argc, char *const *___argv, const char *__shortopts)
-       __THROW;
+extern int getopt(int ___argc, char *const *___argv, const char *__shortopts)
+__THROW;
 
-# if defined __need_getopt && defined __USE_POSIX2 \
-  && !defined __USE_POSIX_IMPLICITLY && !defined __USE_GNU
+#  if defined __need_getopt && defined __USE_POSIX2 \
+      && !defined __USE_POSIX_IMPLICITLY && !defined __USE_GNU
 /* The GNU getopt has more functionality than the standard version.  The
    additional functionality can be disable at runtime.  This redirection
    helps to also do this at runtime.  */
-#  ifdef __REDIRECT
-  extern int __REDIRECT_NTH (getopt, (int ___argc, char *const *___argv,
-				      const char *__shortopts),
-			     __posix_getopt);
-#  else
-extern int __posix_getopt (int ___argc, char *const *___argv,
-			   const char *__shortopts) __THROW;
-#   define getopt __posix_getopt
+#    ifdef __REDIRECT
+extern int __REDIRECT_NTH(getopt,
+                          (int ___argc, char *const *___argv, const char *__shortopts),
+                          __posix_getopt);
+#    else
+extern int __posix_getopt(int ___argc,
+                          char *const *___argv,
+                          const char *__shortopts) __THROW;
+#      define getopt __posix_getopt
+#    endif
 #  endif
-# endif
 #else /* not __GNU_LIBRARY__ */
-extern int getopt ();
+extern int getopt();
 #endif /* __GNU_LIBRARY__ */
 
 #ifndef __need_getopt
-extern int getopt_long (int ___argc, char *const *___argv,
-			const char *__shortopts,
-		        const struct option *__longopts, int *__longind)
-       __THROW;
-extern int getopt_long_only (int ___argc, char *const *___argv,
-			     const char *__shortopts,
-		             const struct option *__longopts, int *__longind)
-       __THROW;
+extern int getopt_long(int ___argc, char *const *___argv,
+                       const char *__shortopts,
+                       const struct option *__longopts, int *__longind)
+__THROW;
+extern int getopt_long_only(int ___argc, char *const *___argv,
+                            const char *__shortopts,
+                            const struct option *__longopts, int *__longind)
+__THROW;
 
 #endif
 
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
