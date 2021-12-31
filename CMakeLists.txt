@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 set(CMAKE_C_STANDARD 99)
 
-project(wb32-dfu-updater_cli VERSION 0.0.2)
+project(wb32-dfu-updater_cli VERSION 0.0.3)
 
 if (NOT (CMAKE_BUILD_TYPE STREQUAL Release))
     #   Build type Debug / Release
