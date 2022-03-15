@@ -170,7 +170,12 @@ int main(int argc, char *argv[])
       break;
     case 's':
       dw_addr = parse_dwaddr("dfuse-address", optarg);
-      mode = MODE_SETADDR;
+      if (dw_addr < 0x8000000)
+      {
+        errx(EX_USAGE, "The set address is not supported. "
+             "Address range 0x8000000 - (0x8000000 + chip flash size)");
+      }
+      flasher.dw_addr = dw_addr;
       break;
     case 'R':
       mode = MODE_RESET;
@@ -214,15 +219,6 @@ int main(int argc, char *argv[])
     fprintf(stderr, "You need to specify one of -D or -U\n");
     help();
     exit(EX_USAGE);
-  }
-
-  if (mode == MODE_SETADDR)
-  {
-    if (dw_addr < 0x8000000)
-      errx(EX_USAGE,
-           "The set address is not supported. \
-             Address range 0x8000000 - (0x8000000 + chip flash size)");
-    flasher.dw_addr = dw_addr;
   }
 
   if (mode == MODE_DOWNLOAD)
