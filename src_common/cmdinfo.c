@@ -22,7 +22,7 @@
 
 void help(void)
 {
-  fprintf(stderr, "Usage: wb32-dfu-updater [options] ...\n"
+  fprintf(stderr, "Usage: wb32-dfu-updater_cli [options] ...\n"
                   "  -h --help\t\t\tPrint this help message\n"
                   "  -V --version\t\t\tPrint the version number\n"
                   "  -l --list\t\t\tList currently attached DFU capable devices\n");
@@ -37,14 +37,13 @@ void help(void)
 
 void print_version(void)
 {
-  printf("wb32-dfu-updater ver: " WB32_DFU_UPDATER_VERSION "\n");
+  printf("wb32-dfu-updater_cli version " WB32_DFU_UPDATER_VERSION "\n");
 
 #if defined(LIBUSB_API_VERSION) || defined(LIBUSBX_API_VERSION)
   const struct libusb_version *ver;
   ver = libusb_get_version();
-  printf("libusb version %i.%i.%i%s (%i)\n", ver->major,
-         ver->minor, ver->micro, ver->rc, ver->nano);
-  printf("----------------------------------------\n");
+  printf("libusb version %i.%i.%i%s\n", ver->major,
+         ver->minor, ver->micro, ver->rc);
 #else
   warnx("libusb version is ancient");
 #endif

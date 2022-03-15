@@ -62,7 +62,7 @@ static long parse_dwaddr(char *str, char *nmb)
     errx(EX_USAGE, "Something went wrong with the argument of --%s\n", str);
   }
 
-  if (endptr == nmb)
+  if (endptr == comma)
   {
     errx(EX_USAGE, "No digits were found from the argument of --%s\n", str);
   }
@@ -72,11 +72,36 @@ static long parse_dwaddr(char *str, char *nmb)
 
 static int parse_number(char *str, char *nmb)
 {
+  char *comma = NULL;
   char *endptr;
+  char ishex = 0;
   long val;
 
+  comma = strstr(nmb, "0x");
+
+  if (comma == NULL)
+    comma = strstr(nmb, "0X");
+
+  if (comma != NULL)
+  {
+    comma += 2;
+    ishex = 1;
+  }
+  else
+  {
+    comma = nmb;
+  }
+
   errno = 0;
-  val = strtol(nmb, &endptr, 0);
+
+  if (ishex)
+  {
+    val = strtol(comma, &endptr, 16);
+  }
+  else
+  {
+    val = strtol(comma, &endptr, 0);
+  }
 
   if ((errno == ERANGE && (val == LONG_MAX || val == LONG_MIN)) ||
       (errno != 0 && val == 0) || (*endptr != '\0'))
@@ -85,7 +110,7 @@ static int parse_number(char *str, char *nmb)
     exit(EX_USAGE);
   }
 
-  if (endptr == nmb)
+  if (endptr == comma)
   {
     fprintf(stderr, "Something went wrong with the argument of --%s\n", str);
     exit(EX_USAGE);
@@ -178,9 +203,9 @@ int main(int argc, char *argv[])
     exit(EX_USAGE);
   }
 
-  print_version();
   if (mode == MODE_VERSION)
   {
+    print_version();
     exit(EX_OK);
   }
 
@@ -262,11 +287,12 @@ probe:
     dfu_root = pdfu;
   }
 
+  printf("----------------------------------------\n");
   printf("Found DFU\n");
 
   if (ret)
     printf("\n");
-  printf("Opening DFU capable USB device...\n");
+  printf("Opening DFU capable USB device ...\n");
 
   ret = libusb_open(dfu_root->dev, &dfu_root->dev_handle);
   if (ret || !dfu_root->dev_handle)
