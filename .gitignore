@@ -1,7 +1,7 @@
-/.DS_Store
-/.vscode
-/build
-/package
-/bin
+**/.DS_Store
+**/.vscode
+**/build
+**/package
+**/bin
 *.hex
 *.bin
