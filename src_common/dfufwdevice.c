@@ -17,6 +17,9 @@
 #include "dfufwdevice.h"
 #include "cmdinfo.h"
 
+#include <unistd.h>
+#include <conio.h>
+
 static int gs_dfufw_timeout = DEFAULT_TIMEOUT;
 
 static int fn_en_usb_write(dfu_dev_t *pdfu, uint8_t *data, uint32_t length)
@@ -114,8 +117,76 @@ static void fn_erase(dfu_dev_t *pdfu,
   if (rsp != 2)
     errx(EX_IOERR, "DFU_CMD_ERASE command response length error! (%d)", rsp);
   if (read_data_buffer[1] != CMD_BACK_SUCCESS)
+  {
+    if (read_data_buffer[1] == CMD_BACK_READ_PROTECT)
+    {
+      fn_unread_protection(pdfu);
+    }
     errx(EX_IOERR, "DFU_CMD_ERASE command failed! (error code: 0x%02X)",
          read_data_buffer[1]);
+  }
+}
+
+void fn_unread_protection(dfu_dev_t *pdfu)
+{
+  char ch = 0;
+  int timeout = UNREAD_PROT_TIMEOUT;
+  uint8_t page_buf[FLASH_PAGE_SIZE] = {0};
+
+  printf("----------------------------------------\n");
+
+  while (1)
+  {
+    printf("\rThe read protection is automatically disabled in %d seconds, "
+           "press Y continue and other character exit! ",
+           timeout);
+    sleep(1);  /* Sleep(ms) sleep(s) usleep(us) */
+    timeout--;
+    if(_kbhit())
+    {
+      ch = getch();
+    }
+
+    switch (ch)
+    {
+      case 'y':
+      case 'Y':
+      case '\r': /* 13 */
+      case '\n': /* 10 */
+        timeout = 0;
+        break;
+      case 0:
+        break;
+      default:
+        exit(0);
+        break;
+    }
+
+    if (timeout == 0)
+    {
+      printf("\r\n");
+
+      /* Program info4 area. */
+      *((uint32_t *)(page_buf + 0x10)) = 0x0C0C0C0C;
+      *((uint8_t *)(page_buf + 0x14)) = ~page_buf[0x10];
+      *((uint16_t *)(page_buf + 0x18)) = 0x5AA5;
+      fn_program_page(pdfu, INFO4_ADDR, page_buf, 0, FLASH_PAGE_SIZE);
+      
+      /* Program info5 area. */
+      memset(page_buf, 0, FLASH_PAGE_SIZE);
+      *((uint32_t *)(page_buf + 0x10)) = 0xFFFFFFFF;
+      *((uint32_t *)(page_buf + 0x1C)) = 0x00000000;
+      fn_program_page(pdfu, INFO5_ADDR, page_buf, 0, FLASH_PAGE_SIZE);
+
+      /* Program info6 area. */
+      memset(page_buf, 0, FLASH_PAGE_SIZE);
+      fn_program_page(pdfu, INFO6_ADDR, page_buf, 0, FLASH_PAGE_SIZE);
+      printf("Read protection is disabled successfully, "
+             "please enter the DFU mode again.\r\n");
+      fn_reset(pdfu, 1000);
+      exit(EX_OK);
+    }
+  }
 }
 
 int fn_get_info(dfu_dev_t *pdfu, int8_t info_id, uint8_t *info)
@@ -195,9 +266,15 @@ void fn_program_page(dfu_dev_t *pdfu,
          "DFU_CMD_PROGRAM_PAGE command response length error! (%d)",
          rsp);
   if (read_data_buffer[1] != CMD_BACK_SUCCESS)
+  {
+    if (read_data_buffer[1] == CMD_BACK_READ_PROTECT)
+    {
+      fn_unread_protection(pdfu);
+    }
     errx(EX_IOERR,
          "DFU_CMD_PROGRAM_PAGE command failed! (error code: 0x%02X)",
          read_data_buffer[1]);
+  }
 
   free(command);
 }
@@ -231,9 +308,15 @@ void fn_cmd_read(dfu_dev_t *pdfu,
   if (rsp < 0)
     errx(EX_IOERR, "DFU_CMD_READ command response length error! (%d)", rsp);
   if (read_data_buffer[1] != CMD_BACK_SUCCESS)
+  {
+    if (read_data_buffer[1] == CMD_BACK_READ_PROTECT)
+    {
+      fn_unread_protection(pdfu);
+    }
     errx(EX_IOERR,
          "DFU_CMD_READ command failed! (error code: 0x%02X)",
          read_data_buffer[1]);
+  }
 
   memcpy(&buffer[offset], &read_data_buffer[2], count);
 }
@@ -284,7 +367,7 @@ void fn_reset(dfu_dev_t *pdfu, uint32_t delay_ms)
                          READ_DATA_SIZE);
   if (rsp != 2)
     errx(EX_IOERR, "DFU_CMD_RESET command response length error! (%d)", rsp);
-  if (read_data_buffer[1] != 0x00)
+  if (read_data_buffer[1] != CMD_BACK_SUCCESS)
     errx(EX_IOERR,
          "DFU_CMD_RESET command failed! (error code: 0x%02X)",
          read_data_buffer[1]);
@@ -310,7 +393,7 @@ void fn_go(dfu_dev_t *pdfu, uint32_t address, uint32_t delay_ms)
                          READ_DATA_SIZE);
   if (rsp != 2)
     errx(EX_IOERR, "DFU_CMD_GO command response length error! (%d)", rsp);
-  if (read_data_buffer[1] != 0x00)
+  if (read_data_buffer[1] != CMD_BACK_SUCCESS)
     errx(EX_IOERR,
          "DFU_CMD_GO command failed! (error code: 0x%02X)",
          read_data_buffer[1]);

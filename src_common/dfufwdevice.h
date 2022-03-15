@@ -25,6 +25,7 @@
 #include "dfufw.h"
 
 void fn_erase_chip(dfu_dev_t *pdfu);
+void fn_unread_protection(dfu_dev_t *pdfu);
 void fn_reset(dfu_dev_t *pdfu, uint32_t delay_ms);
 int  fn_get_info(dfu_dev_t *pdfu, int8_t info_id, uint8_t *info);
 void fn_go(dfu_dev_t *pdfu, uint32_t address, uint32_t delay_ms);

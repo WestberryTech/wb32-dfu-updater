@@ -46,15 +46,15 @@ void *dfufw_malloc(size_t size)
 
 const char *TipString[] = {
   "bin file to hex file success!",
-  "line data of hex file is too large",
-  "line data of hex file is too short",
-  "line data of hex file is no colon",
-  "line data of hex file type is error",
-  "line data of hex file length is error",
-  "line data of hex file check error",
-  "hex file is not exist",
-  "bin file path is error",
-  "hex file is no end"};
+  "line data of hex file is too large!",
+  "line data of hex file is too short!",
+  "line data of hex file is no colon!",
+  "line data of hex file type is error!",
+  "line data of hex file length is error!",
+  "line data of hex file check error!",
+  "hex file is not exist!",
+  "bin file path is error!",
+  "hex file is no end!"};
 
 void dfu_load_file(dw_flasher_t *flasher)
 {
@@ -67,7 +67,7 @@ void dfu_load_file(dw_flasher_t *flasher)
     res = parsed_hex_file(flasher);
     if (res != RES_OK)
     {
-      errx(EX_USAGE, "%s", TipString[res]);
+      errx(EX_USAGE, "Error parsing hex file, %s", TipString[res]);
     }
   }
   else if (strstr(flasher->file_name, ".bin") != NULL)
@@ -82,6 +82,7 @@ void dfu_load_file(dw_flasher_t *flasher)
       errx(EX_NOINPUT, "Could not open file %s for reading\n", flasher->file_name);
     }
 
+    printf("----------------------------------------\n");
     fprintf(stderr, "%s file opened\n", flasher->file_name);
 
     offset = lseek(f, 0, SEEK_END);
@@ -343,7 +344,7 @@ int dfufw_opt_download(dfu_dev_t *pdfu, dw_flasher_t *flasher)
   uint32_t sram_size = *((uint32_t *)&chip_info[9]);
 
   printf("----------------------------------------\n");
-  printf("The device bootloader ver: V%d.%d\n", usb_bt_ver >> 4, usb_bt_ver & 0x0f);
+  printf("The device bootloader version: %d.%d\n", usb_bt_ver >> 4, usb_bt_ver & 0x0f);
   printf("Chip id: 0x%08X\n", chip_id);
   printf("Flash size: 0x%08X\n", flash_size);
   printf("Sram size: 0x%08X\n", sram_size);
@@ -354,7 +355,7 @@ int dfufw_opt_download(dfu_dev_t *pdfu, dw_flasher_t *flasher)
          "Unknown Chip (0x%08X), Maybe use the latest software to solve the problem",
          chip_id);
 
-  printf("Start Download...\n");
+  printf("Start Download ...\n");
 
   for (dw_file = flasher->firmware; dw_file != NULL; dw_file = dw_file->next)
   {
@@ -366,8 +367,8 @@ int dfufw_opt_download(dfu_dev_t *pdfu, dw_flasher_t *flasher)
            0x08000000 + flash_size - 1);
     }
     printf("Download block start address: 0x%08X\n", dw_file->psd_start_addr);
-    printf("Download block size: 0x%X\n", dw_file->psd_length);
-    printf("Writing...\n");
+    printf("Download block size: %d Bytes\n", dw_file->psd_length);
+    printf("Writing ...\n");
     write_fm_to_flash(pdfu, dw_file->psd_start_addr, dw_file->psd_data, dw_file->psd_length);
   }
 
