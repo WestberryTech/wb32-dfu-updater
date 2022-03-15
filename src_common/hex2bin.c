@@ -138,7 +138,10 @@ static int parsed_line_data(FILE *hex_file, parsed_data_t **des_block)
 
   while (!feof(hex_file))
   {
-    fscanf(hex_file, "%s\r\n", raw_data);
+    if (fscanf(hex_file, "%s\r\n", raw_data) != 1)
+    {
+      return RES_HEX_FILE_NO_END;
+    }
     res = parse_line_of_hex((const char *)raw_data, &fmt_bin);
     if (res != RES_OK)
       return res;

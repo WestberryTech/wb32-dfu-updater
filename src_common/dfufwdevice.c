@@ -14,11 +14,17 @@
     limitations under the License.
 */
 
+#include <unistd.h>
+
+#if !(defined(_WIN32) || defined(__CYGWIN__))
+#  include "kbhit.h"
+#  define getch getchar
+#else
+#  include <conio.h>
+#endif
+
 #include "dfufwdevice.h"
 #include "cmdinfo.h"
-
-#include <unistd.h>
-#include <conio.h>
 
 static int gs_dfufw_timeout = DEFAULT_TIMEOUT;
 

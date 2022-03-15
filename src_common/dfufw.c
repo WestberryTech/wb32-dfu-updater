@@ -24,9 +24,9 @@
 #include <sys/stat.h>
 
 #if !(defined(_WIN32) || defined(__CYGWIN__))
-#    include <unistd.h>
+#  include <unistd.h>
 #else
-#    include <io.h>
+#  include <io.h>
 #endif
 
 #include "dfufw.h"

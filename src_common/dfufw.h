@@ -24,9 +24,9 @@
 #include "config.h"
 
 #if !(defined(_WIN32) || defined(__CYGWIN__))
-# ifndef O_BINARY
-#   define O_BINARY 0
-# endif
+#  ifndef O_BINARY
+#    define O_BINARY 0
+#  endif
 #endif
 
 #if !(defined(_WIN32) || defined(__CYGWIN__))
