@@ -140,32 +140,35 @@ void fn_unread_protection(dfu_dev_t *pdfu)
   uint8_t page_buf[FLASH_PAGE_SIZE] = {0};
 
   printf("----------------------------------------\n");
+  printf("The MCU is in read protection mode, "
+         "do you want to continue? [Y/n]    ");
 
   while (1)
   {
-    printf("\rThe read protection is automatically disabled in %d seconds, "
-           "press Y continue and other character exit! ",
-           timeout);
+    uint8_t itm = timeout + 1;
+    printf("\b\b");
+    while (itm /= 10)
+    {
+      printf("\b");
+    }
+    printf("%d ", timeout);
     sleep(1);  /* Sleep(ms) sleep(s) usleep(us) */
-    timeout--;
     if(_kbhit())
     {
       ch = getch();
-    }
-
-    switch (ch)
-    {
-      case 'y':
-      case 'Y':
-      case '\r': /* 13 */
-      case '\n': /* 10 */
-        timeout = 0;
-        break;
-      case 0:
-        break;
-      default:
-        exit(0);
-        break;
+      switch (ch)
+      {
+        case 'y':
+        case 'Y':
+        case '\r': /* 13 */
+        case '\n': /* 10 */
+          timeout = 0;
+          break;
+        default:
+          printf("\n");
+          exit(EX_OK);
+          break;
+      }
     }
 
     if (timeout == 0)
@@ -187,11 +190,13 @@ void fn_unread_protection(dfu_dev_t *pdfu)
       /* Program info6 area. */
       memset(page_buf, 0, FLASH_PAGE_SIZE);
       fn_program_page(pdfu, INFO6_ADDR, page_buf, 0, FLASH_PAGE_SIZE);
-      printf("Read protection is disabled successfully, "
-             "please enter the DFU mode again.\r\n");
+      printf("Read protection mode is disabled, "
+             "please enter the DFU mode again.\n");
       fn_reset(pdfu, 1000);
       exit(EX_OK);
     }
+
+    timeout--;
   }
 }
 
