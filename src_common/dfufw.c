@@ -346,8 +346,8 @@ int dfufw_opt_download(dfu_dev_t *pdfu, dw_flasher_t *flasher)
   printf("----------------------------------------\n");
   printf("The device bootloader version: %d.%d\n", usb_bt_ver >> 4, usb_bt_ver & 0x0f);
   printf("Chip id: 0x%08X\n", chip_id);
-  printf("Flash size: 0x%08X\n", flash_size);
-  printf("Sram size: 0x%08X\n", sram_size);
+  printf("Flash size: %d KBytes\n", flash_size >> 10);
+  printf("Sram size: %d KBytes\n", sram_size >> 10);
   printf("----------------------------------------\n");
 
   if ((chip_id & 0x3FFF) != 0x2980)
