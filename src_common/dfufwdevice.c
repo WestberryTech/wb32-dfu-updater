@@ -133,11 +133,17 @@ static void fn_erase(dfu_dev_t *pdfu,
   }
 }
 
+extern uint8_t toolbox_mode;
 void fn_unread_protection(dfu_dev_t *pdfu)
 {
   char ch = 0;
   int timeout = UNREAD_PROT_TIMEOUT;
   uint8_t page_buf[FLASH_PAGE_SIZE] = {0};
+
+  if (toolbox_mode)
+  {
+    goto disabled_proc;
+  }
 
   printf("----------------------------------------\n");
   printf("The MCU is in read protection mode, "
@@ -175,6 +181,8 @@ void fn_unread_protection(dfu_dev_t *pdfu)
     {
       printf("\r\n");
 
+disabled_proc:
+
       /* Program info4 area. */
       *((uint32_t *)(page_buf + 0x10)) = 0x0C0C0C0C;
       *((uint8_t *)(page_buf + 0x14)) = ~page_buf[0x10];
@@ -191,7 +199,7 @@ void fn_unread_protection(dfu_dev_t *pdfu)
       memset(page_buf, 0, FLASH_PAGE_SIZE);
       fn_program_page(pdfu, INFO6_ADDR, page_buf, 0, FLASH_PAGE_SIZE);
       printf("Read protection mode is disabled, "
-             "please enter the DFU mode again.\n");
+             "please power down and enter the DFU mode again.\n");
       fn_reset(pdfu, 1000);
       exit(EX_OK);
     }

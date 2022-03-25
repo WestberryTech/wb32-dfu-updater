@@ -32,6 +32,7 @@ void help(void)
                   "  -U --upload <file>\t\tRead firmware from device into <file>\n"
                   "  -Z --upload-size <bytes>\tSpecify the expected upload size in bytes\n"
                   "  -D --download <file>\t\tWrite firmware from <file> into device\n"
+                  "  -t --toolbox-mode \t\tAutomatically disables read protection\n"
                   "  -w --wait\t\t\tWait for device to appear\n");
 }
 
