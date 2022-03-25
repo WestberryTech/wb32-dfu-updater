@@ -36,6 +36,7 @@
 #include "dfufw.h"
 
 dfu_dev_t *dfu_root = NULL;
+uint8_t toolbox_mode = 0;
 
 static long parse_dwaddr(char *str, char *nmb)
 {
@@ -129,6 +130,7 @@ static struct option options[] = {
     {"upload", 1, 0, 'U'},
     {"upload-size", 1, 0, 'Z'},
     {"download", 1, 0, 'D'},
+    {"toolbox-mode", 0, 0, 't'},
     {"wait", 1, 0, 'w'},
     {0, 0, 0, 0}};
 
@@ -149,7 +151,7 @@ int main(int argc, char *argv[])
   {
     int parc, ioption = 0;
 
-    parc = getopt_long(argc, argv, "hVln:s:RU:D:Z:w", options, &ioption);
+    parc = getopt_long(argc, argv, "hVln:s:RU:D:Z:tw", options, &ioption);
     if (parc == -1)
       break;
 
@@ -190,6 +192,9 @@ int main(int argc, char *argv[])
       break;
     case 'Z':
       expected_size = parse_number("upload-size", optarg);
+      break;
+    case 't':
+      toolbox_mode = 1;
       break;
     case 'w':
       wait_device = 1;

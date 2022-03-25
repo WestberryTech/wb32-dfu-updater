@@ -83,7 +83,7 @@ void dfu_load_file(dw_flasher_t *flasher)
     }
 
     printf("----------------------------------------\n");
-    fprintf(stderr, "%s file opened\n", flasher->file_name);
+    printf("%s file opened\n", flasher->file_name);
 
     offset = lseek(f, 0, SEEK_END);
 

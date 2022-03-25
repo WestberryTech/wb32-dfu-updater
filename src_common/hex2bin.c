@@ -282,7 +282,7 @@ int parsed_hex_file(dw_flasher_t *flasher)
     return RES_BIN_FILE_PATH_ERROR;
 
   printf("----------------------------------------\n");
-  fprintf(stderr, "%s file opened\n", flasher->file_name);
+  printf("%s file opened\n", flasher->file_name);
 
   fseek(hex_file, 0, SEEK_SET);
 
