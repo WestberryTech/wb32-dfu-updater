@@ -1,5 +1,10 @@
 # [wb32-dfu-updater_cli](https://github.com/WestberryTech/wb32-dfu-updater)
 
+[![Current Version](https://img.shields.io/github/tag/WestberryTech/wb32-dfu-updater.svg)](https://github.com/WestberryTech/wb32-dfu-updater/tags)
+[![License](https://img.shields.io/github/license/WestberryTech/wb32-dfu-updater)](https://github.com/WestberryTech/wb32-dfu-updater/blob/master/LICENSE)
+[![GitHub contributors](https://img.shields.io/github/contributors/WestberryTech/wb32-dfu-updater.svg)](https://github.com/WestberryTech/wb32-dfu-updater/pulse/monthly)
+[![GitHub forks](https://img.shields.io/github/forks/WestberryTech/wb32-dfu-updater.svg?style=social&label=Fork)](https://github.com/WestberryTech/wb32-dfu-updater/)  
+
 `wb32-dfu-updater` is a host tool used to download and upload firmware to/from WB32 MCU via USB. (`wb32-dfu-updater_cli` is the command line version)
 
 ## How to build wb32-dfu-updater_cli:
