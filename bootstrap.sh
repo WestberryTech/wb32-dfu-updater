@@ -26,7 +26,7 @@ function downloadLibusb() {
 
 function findPkg() {
 
-    for find_path in /usr/ /home/ /mingw64/
+    for find_path in /opt/homebrew /usr/ /home/ /mingw64/
     do
         if [ ! $LIBUSB_INCLUDE_DIRS ] ; then
             LIBUSB_INCLUDE_DIRS=`find $find_path -name 'libusb-1.0' -type d | grep include | head -n 1`
