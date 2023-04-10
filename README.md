@@ -28,3 +28,22 @@
 You can found the Windows driver for wb32-dfu-updater_cli in the `driver` directory.
 
 To install the Windows driver for wb32-dfu-updater_cli, you should unzip the package and run `winusb_install.bat`.
+
+## Linux bash error
+
+If you encounter either of the following errors
+
+``` bash: ./bootstrap.sh: cannot execute: required file not found ```
+
+or
+
+``` ./bootstrap.sh: line 2: $'\r': command not found ```
+
+then you will need to convert bootstrap.sh from DOS to Unix encoding before attempting to run the script.
+
+
+The easiest way to do this is by using the CLI tool dos2unix.
+
+``` sudo apt install dos2unix ```
+
+``` dos2unix bootstrap.sh ```
