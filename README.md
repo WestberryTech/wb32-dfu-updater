@@ -9,6 +9,15 @@
 
 `wb32-dfu-updater` is a host tool used to download and upload firmware to/from WB32 MCU via USB. (`wb32-dfu-updater_cli` is the command line version)
 
+## Pre-built packages
+
+| OS | Link |
+| --- | --- |
+| Windows (MINGW64) | https://packages.msys2.org/package/mingw-w64-x86_64-wb32-dfu-updater |
+| macOS | https://formulae.brew.sh/formula/wb32-dfu-updater_cli |
+| Fedora Linux | https://copr.fedorainfracloud.org/coprs/erovia/wb32-dfu-updater/ |
+| Other Linux | https://formulae.brew.sh/formula/wb32-dfu-updater_cli |
+
 ## How to build wb32-dfu-updater_cli:
 
 **Windows system please run on MINGW64!!!**
@@ -22,6 +31,7 @@
 - ``` cd wb32-dfu-updater ```
 - ``` bash ./bootstrap.sh install ```
 - If Permission denied is displayed, use the ``` sudo bash ./bootstrap.sh install ```
+
 
 ## Windows driver
 
