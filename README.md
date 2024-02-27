@@ -32,7 +32,6 @@
 - ``` bash ./bootstrap.sh install ```
 - If Permission denied is displayed, use the ``` sudo bash ./bootstrap.sh install ```
 
-
 ## Windows driver
 
 You can found the Windows driver for wb32-dfu-updater_cli in the `driver` directory.
